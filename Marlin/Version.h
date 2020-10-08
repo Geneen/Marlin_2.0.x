@@ -28,7 +28,7 @@
 /**
  * Marlin release version identifier
  */
-//#define SHORT_BUILD_VERSION "bugfix-2.0.x"
+#define SHORT_BUILD_VERSION "FLSUN HISPEEDv1.1"
 
 /**
  * Verbose version identifier which should contain a reference to the location
@@ -41,12 +41,12 @@
  * here we define this default string as the date where the latest release
  * version was tagged.
  */
-//#define STRING_DISTRIBUTION_DATE "2019-07-10"
+#define STRING_DISTRIBUTION_DATE "2020-10-02"
 
 /**
  * Defines a generic printer name to be output to the LCD after booting Marlin.
  */
-//#define MACHINE_NAME "3D Printer"
+#define MACHINE_NAME "QQ-S_Pro"
 
 /**
  * The SOURCE_CODE_URL is the location where users will find the Marlin Source
@@ -54,23 +54,23 @@
  * has a distinct Github fork— the Source Code URL should just be the main
  * Marlin repository.
  */
-//#define SOURCE_CODE_URL "https://github.com/MarlinFirmware/Marlin"
+#define SOURCE_CODE_URL "https://github.com/Foxies-CSTL/Marlin2.0.x-FLSun_QQ-S"
 
 /**
  * Default generic printer UUID.
  */
-//#define DEFAULT_MACHINE_UUID "cede2a2f-41a2-4748-9b12-c55c62f367ff"
+#define DEFAULT_MACHINE_UUID "8959c708-a02c-45fb-bb2e-a9bae09dbc02"
 
 /**
  * The WEBSITE_URL is the location where users can get more information such as
  * documentation about a specific Marlin release.
  */
-//#define WEBSITE_URL "https://marlinfw.org"
+#define WEBSITE_URL "https://marlinfw.org"
 
 /**
  * Set the vendor info the serial USB interface, if changable
  * Currently only supported by DUE platform
  */
-//#define USB_DEVICE_VENDOR_ID           0x0000
-//#define USB_DEVICE_PRODUCT_ID          0x0000
+#define USB_DEVICE_VENDOR_ID           0x1a86
+#define USB_DEVICE_PRODUCT_ID          0x7523
 //#define USB_DEVICE_MANUFACTURE_NAME    WEBSITE_URL
