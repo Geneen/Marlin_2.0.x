@@ -12,15 +12,15 @@
 //#define STOCK
 
 /*------Drivers-(1 CHOICE)-----*/
-#define QQS               //(S) 4xA4988
+//#define QQS               //(S) 4xA4988
 //#define QQS_TMC           //(8) 4xTMC220x For 2208 or 2209
 
 /* MODE UART XYZ*/
-//#define QQS_UART8           //(U8) 4xTMC2208 (Remove module ESP12)
+#define QQS_UART8           //(U8) 4xTMC2208 (Remove module ESP12)
 //#define QQS_UART9         //(U9) 4xTMC2209 (Remove module ESP12)
 
 /*------- Choice Other driver for EXTRUDER-------*/
-//#define DRIVER_EXT  TMC2208_STANDALONE
+#define DRIVER_EXT  TMC2208_STANDALONE
 
 // Set Software Serial UART for TMC 2208 / TMC 2209
 //#define TMC_SOFTWARE_SERIAL
@@ -46,10 +46,10 @@
 
 
 /*----  Modules -----*/
-#define ESP_WIFI               //(W) Module ESP8266/ESP12
+//#define ESP_WIFI               //(W) Module ESP8266/ESP12
 //#define ESP3D_WIFISUPPORT      //(W)
 //#define BMG                    //(B) Extruder
-//#define NEOPIXEL_LED             //(N) Use port GPIO Wifi module (PA10/PA9/PA8/PC7)
+#define NEOPIXEL_LED             //(N) Use port GPIO Wifi module (PA10/PA9/PA8/PC7)
 
 
 //Many options for Modules: 
@@ -72,7 +72,7 @@
 //#define PID_AUTOTUNE_MENU          //
 //#define PAUSE_BEFORE_DEPLOY_STOW      //Message Stow/remove Probe (bug Octoprint & UI Marlin)
 #define LCD_INFO_MENU                 //
-//#define LED_CONTROL_MENU              // For LedStrip
+#define LED_CONTROL_MENU              // For LedStrip
 
 //  Type Calibration (CAL)
 //#define AUTO_BED_LEVELING_BILINEAR  //(A)

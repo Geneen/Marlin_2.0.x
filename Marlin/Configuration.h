@@ -618,9 +618,9 @@
 
   // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
   //M303 E-1 C8 S80 =>MEMO M304 P97.282 I18.961 D332.738
-  #define DEFAULT_bedKp 73.94
-  #define DEFAULT_bedKi 14.41
-  #define DEFAULT_bedKd 252.92
+  #define DEFAULT_bedKp 76.86
+  #define DEFAULT_bedKi 13.70
+  #define DEFAULT_bedKd 287.52
 
 #endif // PIDTEMPBED
 
@@ -731,17 +731,17 @@
   #define DELTA_DIAGONAL_ROD 280.0        //280 (mm)
 
   // Distance between bed and nozzle Z home position
-  #define DELTA_HEIGHT 361.9360         //372 E3D 360 (mm) Get this value from G33 auto calibrate
+  #define DELTA_HEIGHT 361.91         //372 E3D 360 (mm) Get this value from G33 auto calibrate
 
-  #define DELTA_ENDSTOP_ADJ { -0.01, -0.01, 0.0 } // Get these values from G33 auto calibrate
+  #define DELTA_ENDSTOP_ADJ { -0.01, -0.10, -0.00 } // Get these values from G33 auto calibrate
 
   // Horizontal distance bridged by diagonal push rods when effector is centered.
-  #define DELTA_RADIUS 142.04              //140.8 (mm) Get this value from G33 auto calibrate
+  #define DELTA_RADIUS 142.05              //140.8 (mm) Get this value from G33 auto calibrate
 
   // Trim adjustments for individual towers
   // tower angle corrections for X and Y tower / rotate XYZ so Z tower angle = 0
   // measured in degrees anticlockwise looking from above the printer
-  #define DELTA_TOWER_ANGLE_TRIM { 0.13, -0.19, 0.06 } // Get these values from G33 auto calibrate
+  #define DELTA_TOWER_ANGLE_TRIM { 0.16, -0.20, 0.04 } // Get these values from G33 auto calibrate
 
   // Delta radius and diagonal rod adjustments (mm)
   #define DELTA_RADIUS_TRIM_TOWER { 0.0, 0.0, 0.0 } //OPT
@@ -1532,7 +1532,7 @@
   //#define MESH_EDIT_GFX_OVERLAY  //CAL FSMC   // Display a graphics overlay while editing the mesh
 
   #define MESH_INSET 3              /// Set Mesh bounds as an inset region of the bed
-  #define GRID_MAX_POINTS_X 13      ///OPT Don't use more than 15 points per axis, implementation limited.
+  #define GRID_MAX_POINTS_X 11      ///OPT Don't use more than 15 points per axis, implementation limited.
   /// 10=53points, 13=90points, 15=110points
   #define GRID_MAX_POINTS_Y GRID_MAX_POINTS_X
 
