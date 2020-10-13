@@ -70,7 +70,7 @@
 #define DELTA_CALIBRATION_MENU        //NC LVGL
 //#define PID_EDIT_MENU              //
 //#define PID_AUTOTUNE_MENU          //
-//#define PAUSE_BEFORE_DEPLOY_STOW      //Message Stow/remove Probe (bug Octoprint & UI Marlin)
+#define PAUSE_BEFORE_DEPLOY_STOW      //Message Stow/remove Probe (bug Octoprint & UI Marlin)
 #define LCD_INFO_MENU                 //
 #define LED_CONTROL_MENU              // For LedStrip
 
