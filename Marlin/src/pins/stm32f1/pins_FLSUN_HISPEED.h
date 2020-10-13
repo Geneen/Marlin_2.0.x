@@ -34,7 +34,7 @@
 #endif
 
 #define BOARD_INFO_NAME "FLSun HiSpeedV1"
-
+#define BOARD_WEBSITE_URL    "github.com/Foxies-CSTL"
 //
 // Release PB4 (Y_ENABLE_PIN) from JTAG NRST role
 //
