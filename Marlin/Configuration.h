@@ -21,7 +21,7 @@
  */
 #pragma once
 
-//#define CONFIG_EXAMPLES_DIR "delta/FLSUN/QQ-S"
+#define CONFIG_EXAMPLES_DIR "delta/FLSUN/QQ-S"
 
 /**
  * Configuration.h
@@ -823,13 +823,6 @@
     #endif
 #endif
 
-#ifdef QQS_TMC
-    #define DRIVER_AXES TMC2208_STANDALONE
-    #ifndef DRIVER_EXT
-      #define DRIVER_EXT TMC2208_STANDALONE
-    #endif
-#endif
-
 #define X_DRIVER_TYPE DRIVER_AXES
 #define Y_DRIVER_TYPE DRIVER_AXES
 #define Z_DRIVER_TYPE DRIVER_AXES
@@ -1375,7 +1368,7 @@
 #endif
 
 #if EITHER(MIN_SOFTWARE_ENDSTOPS, MAX_SOFTWARE_ENDSTOPS)
-  #define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
+  //#define SOFT_ENDSTOPS_MENU_ITEM  // Enable/Disable software endstops from the LCD
 #endif
 
 /**
