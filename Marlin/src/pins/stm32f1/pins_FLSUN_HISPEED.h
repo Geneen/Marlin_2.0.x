@@ -23,6 +23,7 @@
 
 /** 
  * FLSUN HiSpeed V1 (STM32F130VET6) board pin assignments
+ * FLSun Hispeed (clone MKS_Robin_miniV2) board.
  * MKS Robin Mini USB Use UART3(PB10-TX,PB11-RX)     
  * #define SERIAL_PORT_2 3
  */
