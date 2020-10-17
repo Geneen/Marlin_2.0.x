@@ -34,8 +34,9 @@
   #error "FLSUN hispeed supports 1 hotends / E-steppers. Comment out this line to continue."
 #endif
 
-#define BOARD_INFO_NAME "FLSun HiSpeedV1"
+#define BOARD_INFO_NAME      "FLSun HiSpeedV1"
 #define BOARD_WEBSITE_URL    "github.com/Foxies-CSTL"
+
 //
 // Release PB4 (Y_ENABLE_PIN) from JTAG NRST role
 //
@@ -335,61 +336,69 @@
   
   /* QQS-Pro use MKS Robin TFT v2.0 */
   //+++++++++++++++++++++++//
-  //#if HAS_TOUCH_XPT2046
-//#if HAS_SPI_TFT || HAS_FSMC_TFT || HAS_GRAPHICAL_TFT
+// Shared FSMC Configs
+#if HAS_FSMC_TFT
+  #define DOGLCD_MOSI                       -1    // prevent redefine Conditionals_post.h
+  #define DOGLCD_SCK                        -1
 
-//#if HAS_FSMC_TFT
-//#if HAS_GRAPHICAL_TFT || HAS_FSMC_TFT
+  #define FSMC_CS_PIN                       PD7   // NE4
+  #define FSMC_RS_PIN                       PD11  // A0
 
-  #define XPT2046_X_CALIBRATION         12013
-  #define XPT2046_Y_CALIBRATION         -8711
-  #define XPT2046_X_OFFSET                -32
-  #define XPT2046_Y_OFFSET                256
+  #define TFT_RESET_PIN                     PC6   // FSMC_RST
+  #define TFT_BACKLIGHT_PIN                 PD13
 
-  #define FSMC_CS_PIN                     PD7
-  #define FSMC_RS_PIN                    PD11
+  #define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT
+  #define FSMC_DMA_DEV                      DMA2
+  #define FSMC_DMA_CHANNEL               DMA_CH5
+
+  #define TOUCH_BUTTONS_HW_SPI
+  #define TOUCH_BUTTONS_HW_SPI_DEVICE          2
+
+#endif
+
+// XPT2046 Touch Screen calibration
+#if EITHER(TFT_LVGL_UI_FSMC, TFT_COLOR_UI)
+  #define TFT_BUFFER_SIZE                  14400
+
+  #ifndef XPT2046_X_CALIBRATION
+    #define XPT2046_X_CALIBRATION         12218
+  #endif
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION          -8814
+  #endif
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET                 -35
+  #endif
+  #ifndef XPT2046_Y_OFFSET
+    #define XPT2046_Y_OFFSET                 256
+  #endif
+
+#elif ENABLED(TFT_CLASSIC_UI)
+  #ifndef XPT2046_X_CALIBRATION
+    #define XPT2046_X_CALIBRATION          12149
+  #endif
+  #ifndef XPT2046_Y_CALIBRATION
+    #define XPT2046_Y_CALIBRATION          -8746
+  #endif
+  #ifndef XPT2046_X_OFFSET
+    #define XPT2046_X_OFFSET                 -35
+  #endif
+  #ifndef XPT2046_Y_OFFSET
+    #define XPT2046_Y_OFFSET                 256
+  #endif
   
-  #define TFT_RST_PIN                      PC6  // FSMC_RST
-  #define TFT_BACKLIGHT_PIN               PD13  // FSMC_LIGHT
+  #define TFT_MARLINUI_COLOR               0xFFFF   // White
+  #define TFT_BTARROWS_COLOR               0xDEE6   // 11011 110111 00110 Yellow
+  #define TFT_BTOKMENU_COLOR               0x145F   // 00010 100010 11111 Cyan
 
-  #define LCD_USE_DMA_FSMC      // Use DMA transfers to send data to the TFT
-  #define FSMC_DMA_DEV                     DMA2
-  #define FSMC_DMA_CHANNEL              DMA_CH5
-
-  #define DOGLCD_MOSI                         -1    // Prevent auto-define by Conditionals_post.h
-  #define DOGLCD_SCK                          -1
-
-#if ENABLED(TFT_CLASSIC_UI)
-//If the screen stays white, disable 'LCD_RESET_PIN' to let the bootloader
-// init the screen.
-  
-  //#define LCD_RESET_PIN             TFT_RST_PIN    // FSMC_RST
-  #define LCD_BACKLIGHT_PIN     TFT_BACKLIGHT_PIN
-
-    #ifndef  BUTTON_DELAY_EDIT
-      #define BUTTON_DELAY_EDIT                50   // (ms) Button repeat delay for edit screens
-    #endif
-    #ifndef BUTTON_DELAY_MENU 
-      #define BUTTON_DELAY_MENU               250   // (ms) Button repeat delay for menus
-    #endif
-
-    #if NEED_TOUCH_PINS
-      #define TFT_MARLINUI_COLOR             0xFFFF   // White
-      #define TFT_BTARROWS_COLOR             0xDEE6   // 11011 110111 00110 Yellow
-      #define TFT_BTOKMENU_COLOR             0x145F   // 00010 100010 11111 Cyan
-    #endif
-#elif ENABLED(TFT_COLOR_UI)
-  #define TFT_BUFFER_SIZE                   14400
 #endif
 
 #if NEED_TOUCH_PINS
-  #define TOUCH_CS_PIN                  PC2    // SPI2_NSS
-  #define TOUCH_SCK_PIN                PB13    // SPI2_SCK
-  #define TOUCH_MISO_PIN               PB14    // SPI2_MISO
-  #define TOUCH_MOSI_PIN               PB15    // SPI2_MOSI
+    #define TOUCH_CS_PIN                    PC2   // SPI2_NSS
+    #define TOUCH_SCK_PIN                  PB13   // SPI2_SCK
+    #define TOUCH_MISO_PIN                 PB14   // SPI2_MISO
+    #define TOUCH_MOSI_PIN                 PB15   // SPI2_MOSI
 #endif
-
-// end defintion  MKS robin TFT
 
 // SPI
 // Note: FLSun Hispeed (clone MKS_Robin_miniV2) board is using SPI2 interface.
@@ -406,157 +415,3 @@
   #define W25QXX_MISO_PIN                  PB14
   #define W25QXX_SCK_PIN                   PB13
 #endif
-
-/*
-  // Beta_Test with TFT Robin
-#if HAS_TFT_LVGL_UI
-  #define HAS_SPI_FLASH_FONT                      0
-  #define HAS_GCODE_PREVIEW                       1
-  #define HAS_GCODE_DEFAULT_VIEW_IN_FLASH         0
-  #define HAS_LANG_SELECT_SCREEN                  0
-  #define HAS_BAK_VIEW_IN_FLASH                   0
-  #define HAS_LOGO_IN_FLASH                       0
-  #define HAS_TOUCH_XPT2046                       1
-
-  #define TOUCH_CS_PIN                          PC2   // SPI1_NSS
-  #define TOUCH_SCK_PIN                        PB13   // SPI1_SCK
-  #define TOUCH_MISO_PIN                       PB14   // SPI1_MISO
-  #define TOUCH_MOSI_PIN                       PB15   // SPI1_MOSI
-  #define TOUCH_INT_PIN                          -1   //PB6
-
-  #if ENABLED(TFT_LVGL_UI_SPI)
-    #define SPI_TFT_CS_PIN             TOUCH_CS_PIN
-    #define SPI_TFT_SCK_PIN           TOUCH_SCK_PIN
-    #define SPI_TFT_MISO_PIN         TOUCH_MISO_PIN
-    #define SPI_TFT_MOSI_PIN         TOUCH_MOSI_PIN
-    #define SPI_TFT_DC_PIN                     PD11
-    #define SPI_TFT_RST_PIN                     PC6
-  #endif
-
-  #define LCD_RESET_PIN                         PC6
-  #define LCD_BACKLIGHT_PIN                    PD13
-
-  #define LCD_PIXEL_WIDTH                       320
-  #define LCD_PIXEL_HEIGHT                      240
-  //#define LCD_FULL_PIXEL_WIDTH      LCD_PIXEL_WIDTH
-  //#define LCD_FULL_PIXEL_HEIGHT    LCD_PIXEL_HEIGHT
-  #define LCD_PIXEL_OFFSET_X                    32
-  #define LCD_PIXEL_OFFSET_Y                    32
-
-#endif
-*/
-//====================================================//
-//============== Test to integrate LVGL==============//
-// Shared FSMC Configs
-/*
-#if HAS_FSMC_TFT
-  #define FSMC_CS_PIN                       PD7   // NE4
-  #define FSMC_RS_PIN                       PD11  // A0
-
-  #define TOUCH_CS_PIN                      PC2   // SPI2_NSS
-  #define TOUCH_SCK_PIN                     PB13  // SPI2_SCK
-  #define TOUCH_MISO_PIN                    PB14  // SPI2_MISO
-  #define TOUCH_MOSI_PIN                    PB15  // SPI2_MOSI
-
-  #define LCD_RESET_PIN                     PC6   // FSMC_RST
-  #define LCD_BACKLIGHT_PIN                 PD13
-
-  #define TFT_RESET_PIN                     PC6   // FSMC_RST
-  #define TFT_BACKLIGHT_PIN                 PD13
-
-  #define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT
-  #define FSMC_DMA_DEV                      DMA2
-  #define FSMC_DMA_CHANNEL               DMA_CH5
-
-  #define TOUCH_BUTTONS_HW_SPI
-  #define TOUCH_BUTTONS_HW_SPI_DEVICE          2
-#endif
-
-// LVGL Configs
-#if ENABLED(TFT_LVGL_UI_FSMC)
-
-  #define XPT2046_X_CALIBRATION         12013
-  #define XPT2046_Y_CALIBRATION         -8711
-  #define XPT2046_X_OFFSET                -32
-  #define XPT2046_Y_OFFSET                256
-
-// Emulated DOGM Configs
-#elif ENABLED(FSMC_GRAPHICAL_TFT)
-
-  #define DOGLCD_MOSI                       -1    // prevent redefine Conditionals_post.h
-  #define DOGLCD_SCK                        -1
-
-  #ifndef GRAPHICAL_TFT_UPSCALE
-    #define GRAPHICAL_TFT_UPSCALE              2
-  #endif
-  #ifndef TFT_WIDTH
-    #define TFT_WIDTH                        320
-  #endif
-  #ifndef TFT_PIXEL_OFFSET_X
-    #define TFT_PIXEL_OFFSET_X                32
-  #endif
-  #ifndef TFT_HEIGHT
-    #define TFT_HEIGHT                       240
-  #endif
-  #ifndef TFT_PIXEL_OFFSET_Y
-    #define TFT_PIXEL_OFFSET_Y                32
-  #endif
-
-  #ifndef XPT2046_X_CALIBRATION
-    #define XPT2046_X_CALIBRATION          12013
-  #endif
-  #ifndef XPT2046_Y_CALIBRATION
-    #define XPT2046_Y_CALIBRATION          -8711
-  #endif
-  #ifndef XPT2046_X_OFFSET
-    #define XPT2046_X_OFFSET                 -32
-  #endif
-  #ifndef XPT2046_Y_OFFSET
-    #define XPT2046_Y_OFFSET                 256
-  #endif
-
-  #if NEED_TOUCH_PINS
-    #define TOUCH_CS_PIN                    PC2   // SPI2_NSS
-    #define TOUCH_SCK_PIN                  PB13   // SPI2_SCK
-    #define TOUCH_MISO_PIN                 PB14   // SPI2_MISO
-    #define TOUCH_MOSI_PIN                 PB15   // SPI2_MOSI
-  
-  #ifndef  BUTTON_DELAY_EDIT
-    #define BUTTON_DELAY_EDIT                50   // (ms) Button repeat delay for edit screens
-  #endif
-  #ifndef BUTTON_DELAY_MENU 
-    #define BUTTON_DELAY_MENU               250   // (ms) Button repeat delay for menus
-  #endif
-
-    #define TFT_MARLINUI_COLOR           0xFFFF   // White
-    #define TFT_BTARROWS_COLOR           0xDEE6   // 11011 110111 00110 Yellow
-    #define TFT_BTOKMENU_COLOR           0x145F   // 00010 100010 11111 Cyan
-  #endif
-
-#elif ENABLED(TFT_320x240)                        // TFT32/28
-  #define TFT_RESET_PIN                     PC6
-  #define TFT_BACKLIGHT_PIN                 PD13
-
-  #define LCD_USE_DMA_FSMC                        // Use DMA transfers to send data to the TFT
-  #define FSMC_CS_PIN                       PD7
-  #define FSMC_RS_PIN                       PD11
-  #define FSMC_DMA_DEV                      DMA2
-  #define FSMC_DMA_CHANNEL               DMA_CH5
-
-  #define XPT2046_X_CALIBRATION            12013
-  #define XPT2046_Y_CALIBRATION            -8711
-  #define XPT2046_X_OFFSET                   -32
-  #define XPT2046_Y_OFFSET                   256
-  
-  #if NEED_TOUCH_PINS
-    #define TOUCH_CS_PIN                      PC2   // SPI2_NSS
-    #define TOUCH_SCK_PIN                     PB13  // SPI2_SCK
-    #define TOUCH_MISO_PIN                    PB14  // SPI2_MISO
-    #define TOUCH_MOSI_PIN                    PB15  // SPI2_MOSI
-  #endif
-
-  #define TFT_BUFFER_SIZE                  14400
-  
-#endif
-
-==============================================*/

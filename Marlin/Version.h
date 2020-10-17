@@ -28,21 +28,20 @@
 /**
  * Marlin release version identifier
  */
-#define SHORT_BUILD_VERSION "BugFix FLSUN HISPEEDv1.2"
-//#define SHORT_BUILD_VERSION "2.0.7.2"
+#define SHORT_BUILD_VERSION "QQS-bugfix-2.0.x"
 
 /**
  * Verbose version identifier which should contain a reference to the location
  * from where the binary was downloaded or the source code was compiled.
  */
-//#define DETAILED_BUILD_VERSION SHORT_BUILD_VERSION
+#define DETAILED_BUILD_VERSION SHORT_BUILD_VERSION
 
 /**
  * The STRING_DISTRIBUTION_DATE represents when the binary file was built,
  * here we define this default string as the date where the latest release
  * version was tagged.
  */
-#define STRING_DISTRIBUTION_DATE "2020-07-09"
+#define STRING_DISTRIBUTION_DATE "2019-07-10"
 
 /**
  * Defines a generic printer name to be output to the LCD after booting Marlin.
@@ -60,7 +59,7 @@
 /**
  * Default generic printer UUID.
  */
-#define DEFAULT_MACHINE_UUID "8959c708-a02c-45fb-bb2e-a9bae09dbc02"
+//#define DEFAULT_MACHINE_UUID "cede2a2f-41a2-4748-9b12-c55c62f367ff"
 
 /**
  * The WEBSITE_URL is the location where users can get more information such as
