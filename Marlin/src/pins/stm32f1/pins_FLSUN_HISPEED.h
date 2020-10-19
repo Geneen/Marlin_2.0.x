@@ -45,13 +45,6 @@
 //
 // EEPROM
 //
-/*
-#if EITHER(NO_EEPROM_SELECTED, I2C_EEPROM)
-  #define I2C_EEPROM                              // EEPROM on I2C-0
-  #define MARLIN_EEPROM_SIZE 0x1000               // 4KB
-#endif
-*/
-
 #if EITHER(NO_EEPROM_SELECTED, FLASH_EEPROM_EMULATION)
   #define FLASH_EEPROM_EMULATION
   #define EEPROM_PAGE_SIZE     (0x800U)          // 2KB
@@ -67,56 +60,28 @@
 #define Z_MIN_PIN                          PA11   ///-Z
 #define Z_MAX_PIN                           PC4   ///+Z
 
-//#define X_DIAG_PIN                          PA15  //-X
-//#define Y_DIAG_PIN                          PA12  //-Y
-//#define Z_DIAG_PIN                          PA11  //-Z
-//#define E0_DIAG_PIN                         PC4   //+Z
-
 //
 // Steppers
 //
-#define X_ENABLE_PIN                        PE4   ///X_EN
-#define X_STEP_PIN                          PE3   ///X_STEP
-#define X_DIR_PIN                           PE2   ///X_DIR
+#define X_ENABLE_PIN                        PE4   //X_EN
+#define X_STEP_PIN                          PE3   //X_STEP
+#define X_DIR_PIN                           PE2   //X_DIR
 
-#define Y_ENABLE_PIN                        PE1   ///Y_EN
-#define Y_STEP_PIN                          PE0   ///Y_STEP
-#define Y_DIR_PIN                           PB9   ///Y_DIR
+#define Y_ENABLE_PIN                        PE1   //Y_EN
+#define Y_STEP_PIN                          PE0   //Y_STEP
+#define Y_DIR_PIN                           PB9   //Y_DIR
 
-#define Z_ENABLE_PIN                        PB8   ///Z_EN
-#define Z_STEP_PIN                          PB5   ///Z_STEP
-#define Z_DIR_PIN                           PB4   ///Z_DIR
+#define Z_ENABLE_PIN                        PB8   //Z_EN
+#define Z_STEP_PIN                          PB5   //Z_STEP
+#define Z_DIR_PIN                           PB4   //Z_DIR
 
-#define E0_ENABLE_PIN                       PB3   ///E0_EN
-#define E0_STEP_PIN                         PD6   ///E0_STEP
-#define E0_DIR_PIN                          PD3   ///E0_DIR
+#define E0_ENABLE_PIN                       PB3   //E0_EN
+#define E0_STEP_PIN                         PD6   //E0_STEP
+#define E0_DIR_PIN                          PD3   //E0_DIR
 
 //
 // Drivers
 //
-  // Set Hardware Serial UART only für TCM 2209
-  //#define HARDWARE_SERIAL
-  // Set Software Serial UART for TMC 2208 / TMC 2209
-//#define SOFTWARE_SERIAL
-
-/*
-#if HAS_TMC_UART
- //FOR TMC in SPI mode and software SPI
-  #ifndef X_CS_PIN 
-    #define X_CS_PIN                         PA10   //RXD1 /PD5
-  #endif
-  #ifndef Y_CS_PIN
-    #define Y_CS_PIN                         PA9   //TXD1  /PD7
-  #endif
-  #ifndef Z_CS_PIN
-    #define Z_CS_PIN                         PC7   //IO1 /PD4
-  #endif
- // #ifndef E0_CS_PIN 
- //   #define E0_CS_PIN                        PA8   //IO0 /PD9
- // #endif
-*/  
-//#if HAS_TRINAMIC_CONFIG
-//#if HAS_TMC_UART
 #if HAS_TMC220x
   
   #if ENABLED(HARDWARE_SERIAL)  /*  TMC2209 */ 
@@ -125,14 +90,14 @@
     #define  Z_SLAVE_ADDRESS 1    // |  :  :
     //#define E0_SLAVE_ADDRESS 0    // :  :  :
 
-    #define X_SERIAL_TX_PIN                  PA9  //TXD1  /PD5
-    #define X_SERIAL_RX_PIN                  PA9  //TXD1  /PD5
+    #define X_SERIAL_TX_PIN                  PA9  //TXD1
+    #define X_SERIAL_RX_PIN                  PA9  //TXD1
 
-    #define Y_SERIAL_TX_PIN                   PA9  //TXD1  /PD7
-    #define Y_SERIAL_RX_PIN                   PA9  //TXD1  /PD7
+    #define Y_SERIAL_TX_PIN                   PA9  //TXD1
+    #define Y_SERIAL_RX_PIN                   PA9  //TXD1
 
-    #define Z_SERIAL_TX_PIN                   PA9  //TXD1  /PD4
-    #define Z_SERIAL_RX_PIN                   PA9  //TXD1  /PD4
+    #define Z_SERIAL_TX_PIN                   PA9  //TXD1
+    #define Z_SERIAL_RX_PIN                   PA9  //TXD1
 
 /*
  * TMC2208 stepper UART-configurable by PDN_UART pin
@@ -143,31 +108,29 @@
     #define  X_SLAVE_ADDRESS 0
     #define  Y_SLAVE_ADDRESS 0
     #define  Z_SLAVE_ADDRESS 0
-    //#define E0_SLAVE_ADDRESS 0
 
-    #define X_SERIAL_TX_PIN                  PA10  //RXD1  /PD5
-    #define X_SERIAL_RX_PIN                  PA10  //RXD1  /PD5
+    #define X_SERIAL_TX_PIN                  PA10  //RXD1
+    #define X_SERIAL_RX_PIN                  PA10  //RXD1
 
-    #define Y_SERIAL_TX_PIN                   PA9  //TXD1  /PD7
-    #define Y_SERIAL_RX_PIN                   PA9  //TXD1  /PD7
+    #define Y_SERIAL_TX_PIN                   PA9  //TXD1
+    #define Y_SERIAL_RX_PIN                   PA9  //TXD1
 
-    #define Z_SERIAL_TX_PIN                   PC7  //IO1  /PD4
-    #define Z_SERIAL_RX_PIN                   PC7  //IO1  /PD4
+    #define Z_SERIAL_TX_PIN                   PC7  //IO1
+    #define Z_SERIAL_RX_PIN                   PC7  //IO1
 
   #endif  
   // Reduce baud rate to improve software serial reliability
   #define TMC_BAUD_RATE 19200
 #else
-// Motor current PWM pins
 
-  #define MOTOR_CURRENT_PWM_XY_PIN            PA6 //VREF2/3 CONTROL XY
-  #define MOTOR_CURRENT_PWM_Z_PIN             PA7 //VREF4 CONTROL Z
+// Motor current PWM pins
+  #define MOTOR_CURRENT_PWM_XY_PIN            PA6   //VREF2/3 CONTROL XY
+  #define MOTOR_CURRENT_PWM_Z_PIN             PA7   //VREF4 CONTROL Z
   #define MOTOR_CURRENT_PWM_RANGE             1500  // (255 * (1000mA / 65535)) * 257 = 1000 is equal 1.6v Vref in turn equal 1Amp
   #ifndef DEFAULT_PWM_MOTOR_CURRENT
-   #define DEFAULT_PWM_MOTOR_CURRENT { 800, 800, 280 } 
+   #define DEFAULT_PWM_MOTOR_CURRENT { 800, 800, 800 } 
   #endif
 
-  
 /**
  * src: MKS Robin_Mini V2
  *           __ESP(M1)__           -J1-
@@ -175,51 +138,35 @@
  *          | 16 | | 07 |MOSI      (21)=>TXD1(PA9)   // active low, probably OK to leave floating
  *       IO2| 17 | | 06 |MISO      (19)=>IO1(PC7)    // Leave as unused (ESP3D software configures this with a pullup so OK to leave as floating)
  *       IO0| 18 | | 05 |CLK       (18)=>IO0(PA8)    // must be high (ESP3D software configures this with a pullup so OK to leave as floating)
- *       IO1| 19 | | 03 |EN        (03)=>WIFI_EN()     // Must be high for module to run
+ *       IO1| 19 | | 03 |EN        (03)=>WIFI_EN()   // Must be high for module to run
  *          | nc | | nc |          (01)=>WIFI_CTRL(PA5)
  *        RX| 21 | | nc |       
  *        TX| 22 | | 01 |RST  
  *            ￣￣ AE￣￣              
  *
-
-    #define ESP_WIFI_MODULE_COM                 2   // Must also set either SERIAL_PORT or SERIAL_PORT_2 to this
-    #define ESP_WIFI_MODULE_BAUDRATE     BAUDRATE   // Must use same BAUDRATE as SERIAL_PORT & SERIAL_PORT_2
-    #define ESP_WIFI_MODULE_RESET_PIN         PA5   //WIFI CTRL/RST
-    #define ESP_WIFI_MODULE_ENABLE_PIN         -1
-    #define ESP_WIFI_MODULE_GPIO0_PIN         PA8   //IO0
-    #define ESP_WIFI_MODULE_GPIO1_PIN         PC7   //IO1
-    #define ESP_WIFI_MODULE_TXD_PIN           PA9   //TXD1
-    #define ESP_WIFI_MODULE_RXD_PIN          PA10   //RXD1
-
-    #if ANY(WIFISUPPORT, ESP3D_WIFISUPPORT)  
-      #define WIFI_TX_PIN    PA10
-      #define WIFI_RX_PIN    PA9
-      #define WIFI_IO0_PIN   PA8
-      #define WIFI_IO1_PIN   PC7
-    #endif
-**/   
+*/
     #ifdef ESP_WIFI 
       #define WIFI_IO0_PIN                        PA8  // PC13 MKS ESP WIFI IO0 PIN
-      #define WIFI_IO1_PIN       			            PC7   // MKS ESP WIFI IO1 PIN
-      #define WIFI_RESET_PIN			              	PA5   // MKS ESP WIFI RESET PIN
+      #define WIFI_IO1_PIN       			            PC7  // MKS ESP WIFI IO1 PIN
+      #define WIFI_RESET_PIN			              	PA5  // MKS ESP WIFI RESET PIN
     #endif 
 #endif
-//=================EXTRUDER=======================//
 
-//#if HAS_TMC220x
+//
+///=================EXTRUDER=======================//
+//
 #if AXIS_DRIVER_TYPE(E0,TMC2208)||AXIS_DRIVER_TYPE(E0,TMC2209)
     #define E0_SLAVE_ADDRESS 0
 
-    #define E0_SERIAL_TX_PIN                  PA8  //IO0 /PD9 
-    #define E0_SERIAL_RX_PIN                  PA8  //IO0 /PD9 
+    #define E0_SERIAL_TX_PIN                  PA8  //IO0
+    #define E0_SERIAL_RX_PIN                  PA8  //IO0
     #define TMC_BAUD_RATE 19200
 #else
 // Motor current PWM pins
-  //#define VREF_E0_PIN                       PB0 //Vref Control E
-  #define MOTOR_CURRENT_PWM_E_PIN             PB0 //VREF1 CONTROL E
-  #define MOTOR_CURRENT_PWM_RANGE             1500  // (255 * (1000mA / 65535)) * 257 = 1000 is equal 1.6v Vref in turn equal 1Amp
+  #define MOTOR_CURRENT_PWM_E_PIN             PB0  // VREF1 CONTROL E
+  #define MOTOR_CURRENT_PWM_RANGE            1500  // (255 * (1000mA / 65535)) * 257 = 1000 is equal 1.6v Vref in turn equal 1Amp
   #ifndef DEFAULT_PWM_MOTOR_CURRENT
-   #define DEFAULT_PWM_MOTOR_CURRENT { 800, 800, 280 } 
+   #define DEFAULT_PWM_MOTOR_CURRENT { 800, 800, 800 } 
   #endif
 #endif
 
@@ -227,16 +174,16 @@
 //
 // Temperature Sensors(THM)
 //
-#define TEMP_0_PIN                          PC1   /// TEMP_E0
-#define TEMP_BED_PIN                        PC0   /// TEMP_BED
+#define TEMP_0_PIN                          PC1   // TEMP_E0
+#define TEMP_BED_PIN                        PC0   // TEMP_BED
 
 //
 // Heaters / Fans
 //
-#define HEATER_0_PIN                        PC3   /// HEATER_E0
-#define HEATER_BED_PIN                      PA0   /// HEATER_BED-WKUP
+#define HEATER_0_PIN                        PC3   // HEATER_E0
+#define HEATER_BED_PIN                      PA0   // HEATER_BED-WKUP
 
-#define FAN_PIN                             PB1   /// E_FAN
+#define FAN_PIN                             PB1   // E_FAN
 //#define CONTROLLER_FAN_PIN                  PD6   // BOARD FAN
 
 //
@@ -271,9 +218,12 @@
 //
 //#define LED_PIN                              PB2  //BOOT1
 
-//#define LED_PWM                              PA8
+
 #if ENABLED(NEOPIXEL_LED)
-  #define NEOPIXEL_PIN                PA8  // USED WIFI IO0/IO1/TX/RX PIN
+  #define LED_PWM                              PA8
+  #ifndef NEOPIXEL_PIN
+    #define NEOPIXEL_PIN                       PA8  // USED WIFI IO0/IO1/TX/RX PIN
+  #endif
 #endif
 
 //Others test.
