@@ -72,7 +72,7 @@
 // @section info
 
 // Author info of this build printed to the host during boot and M115
-//#define STRING_CONFIG_H_AUTHOR "(Foxies-CSTL, QQS_Pro)" // Who made the changes.
+//#define STRING_CONFIG_H_AUTHOR "(Foxies-CSTL, QQS-Pro)" // Who made the changes.
 #define CUSTOM_VERSION_FILE Version.h // Path from the root directory (no quotes)
 
 /**
@@ -149,7 +149,6 @@
   #endif
   #ifdef QQS
     #define MOTHERBOARD BOARD_FLSUN_HISPEED
-    //#define MOTHERBOARD BOARD_MKS_ROBIN_NANO_V2
   #endif
   #ifdef QQS_TMC
     #define MOTHERBOARD BOARD_FLSUN_HISPEED
@@ -164,13 +163,13 @@
   #define CUSTOM_MACHINE_NAME "FLSUN QQ-S"
 #endif
 #ifdef QQS
-  #define CUSTOM_MACHINE_NAME "FLSUN QQ-S PRO"
+  #define CUSTOM_MACHINE_NAME "FLSUN QQS-Pro"
 #endif
 #ifdef QQS_TMC
-  #define CUSTOM_MACHINE_NAME "FLSUN QQ-S TMC"
+  #define CUSTOM_MACHINE_NAME "FLSUN QQS TMC"
 #endif
 #ifdef QQS_UART
-  #define CUSTOM_MACHINE_NAME "FLSUN QQ-S UART"
+  #define CUSTOM_MACHINE_NAME "FLSUN QQS UART"
 #endif
 
 // Printer's unique ID, used by some programs to differentiate between machines.
@@ -466,7 +465,7 @@
 #define TEMP_SENSOR_5 0
 #define TEMP_SENSOR_6 0
 #define TEMP_SENSOR_7 0
-#define TEMP_SENSOR_BED 0
+#define TEMP_SENSOR_BED 1
 #define TEMP_SENSOR_PROBE 0
 #define TEMP_SENSOR_CHAMBER 0
 
@@ -560,16 +559,18 @@
     #define DEFAULT_Ki_LIST {   3.38,   3.38 }
     #define DEFAULT_Kd_LIST {  58.69,  58.69 }
   #else
+    // FLSUN QQS-S
     //#define DEFAULT_Kp  28.16
     //#define DEFAULT_Ki   3.38
     //#define DEFAULT_Kd  58.69
-  // (measured after M106 S180 with M303 E0 S230 C8) Memo: M301 P23.24 I1.87 D72.35 (sonde11)
-  // FLSUN QQ-S, PET 235 C with 70% part cooling
-  //M301 P21.67 I1.25 D93.81 PLA
-  //M301 P21.6708 I1.2515 D93.8127 PET 
-    #define DEFAULT_Kp 21.6708
-    #define DEFAULT_Ki 1.2515
-    #define DEFAULT_Kd 93.8127
+
+    // FLSUN QQS-Pro, PET 235 C with 70% part cooling
+    //M301 P21.67 I1.25 D93.81        PLA
+    //M301 P21.6708 I1.2515 D93.8127  PET
+    // FIND YOUR OWN: measured after M106 S180 with M303 E0 S230 C8
+    #define DEFAULT_Kp 20.4763
+    #define DEFAULT_Ki 1.1105
+    #define DEFAULT_Kd 94.3881
   #endif
 #endif // PIDTEMP
 
@@ -590,7 +591,7 @@
  * heater. If your configuration is significantly different than this and you don't understand
  * the issues involved, don't use bed PID until someone else verifies that your hardware works.
  */
-//#define PIDTEMPBED
+#define PIDTEMPBED
 
 //#define BED_LIMIT_SWITCHING
 
@@ -618,16 +619,17 @@
   //#define DEFAULT_bedKi 1.41
   //#define DEFAULT_bedKd 1675.16
 
-  // FLSUN QQ-S stock 1.6mm aluminium heater with 4mm lattice glass
-  //#define DEFAULT_bedKp 325.10
-  //#define DEFAULT_bedKi 63.35
-  //#define DEFAULT_bedKd 417.10
+  // FLSUN QQS-Pro 1.6mm aluminium heater with 4mm lattice glass
+  //#define DEFAULT_bedKp 82.98
+  //#define DEFAULT_bedKi 15.93
+  //#define DEFAULT_bedKd 288.25
 
-  // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
-  //M303 E-1 C8 S80 =>MEMO M304 P97.282 I18.961 D332.738
-  #define DEFAULT_bedKp 73.94
-  #define DEFAULT_bedKi 14.41
-  #define DEFAULT_bedKd 252.92
+  // FIND YOUR OWN: "M303 E-1 S90 C8" to run autotune on the bed at 90 degrees for 8 cycles.
+  //M303 E-1 C8 S60 =>Memo M304 P56.7371 I9.8297 D218.3244
+  //M303 E-1 C8 S80 =>Memo M304 P82.9811 I15.957 D288.2487
+  #define DEFAULT_bedKp 82.9811
+  #define DEFAULT_bedKi 15.9257
+  #define DEFAULT_bedKd 288.2487
 
 #endif // PIDTEMPBED
 
@@ -738,9 +740,9 @@
   #define DELTA_DIAGONAL_ROD 280.0        //280 (mm)
 
   // Distance between bed and nozzle Z home position
-  #define DELTA_HEIGHT 361.7            //370 E3D 360 (mm) Get this value from G33 auto calibrate
+  #define DELTA_HEIGHT 361.84            //370 E3D 360 (mm) Get this value from G33 auto calibrate
 
-  #define DELTA_ENDSTOP_ADJ { 0.0, -0.37, -0.28 } // Get these values from G33 auto calibrate
+  #define DELTA_ENDSTOP_ADJ { 0.0, -0.17, -0.11 } // Get these values from G33 auto calibrate
 
   // Horizontal distance bridged by diagonal push rods when effector is centered.
   #define DELTA_RADIUS 142.07              //140.8 (mm) Get this value from G33 auto calibrate
@@ -748,7 +750,7 @@
   // Trim adjustments for individual towers
   // tower angle corrections for X and Y tower / rotate XYZ so Z tower angle = 0
   // measured in degrees anticlockwise looking from above the printer
-  #define DELTA_TOWER_ANGLE_TRIM { 0.15, -0.14, -0.02 } // Get these values from G33 auto calibrate
+  #define DELTA_TOWER_ANGLE_TRIM { 0.14, -0.18, -0.07 } // Get these values from G33 auto calibrate
 
   // Delta radius and diagonal rod adjustments (mm)
   #define DELTA_RADIUS_TRIM_TOWER { 0.0, 0.0, 0.0 } //OPT
@@ -902,7 +904,7 @@
 #define XYZ_PULLEY_TEETH 20 //=> 20
 
 // delta speeds must be the same on xyz
-#define DEFAULT_XYZ_STEPS_PER_UNIT ((XYZ_FULL_STEPS_PER_ROTATION) * (XYZ_MICROSTEPS) / double(XYZ_BELT_PITCH) / double(XYZ_PULLEY_TEETH)) // ()
+#define DEFAULT_XYZ_STEPS_PER_UNIT ((XYZ_FULL_STEPS_PER_ROTATION) * (XYZ_MICROSTEPS) / double(XYZ_BELT_PITCH) / double(XYZ_PULLEY_TEETH))
 #ifdef BMG
   #define DEFAULT_AXIS_STEPS_PER_UNIT   { DEFAULT_XYZ_STEPS_PER_UNIT, DEFAULT_XYZ_STEPS_PER_UNIT, DEFAULT_XYZ_STEPS_PER_UNIT, 417 }  //415 default steps per unit
 #else 
@@ -1051,7 +1053,7 @@
  * A Fix-Mounted Probe either doesn't deploy or needs manual deployment.
  *   (e.g., an inductive probe or a nozzle-based probe-switch.)
  */
-//#define FIX_MOUNTED_PROBE
+#define FIX_MOUNTED_PROBE
 
 /**
  * Use the nozzle as the probe, as with a conductive
@@ -1329,23 +1331,23 @@
 
 // Direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
-#define X_HOME_DIR -1
-#define Y_HOME_DIR -1
-#define Z_HOME_DIR -1
+#define X_HOME_DIR 1  // deltas always home to max
+#define Y_HOME_DIR 1
+#define Z_HOME_DIR 1
 
 // @section machine
 
 // The size of the print bed
-#define X_BED_SIZE 200
-#define Y_BED_SIZE 200
+#define X_BED_SIZE ((DELTA_PRINTABLE_RADIUS) * 2)
+#define Y_BED_SIZE ((DELTA_PRINTABLE_RADIUS) * 2)
 
 // Travel limits (mm) after homing, corresponding to endstop positions.
-#define X_MIN_POS 0
-#define Y_MIN_POS 0
+#define X_MIN_POS -(DELTA_PRINTABLE_RADIUS)
+#define Y_MIN_POS -(DELTA_PRINTABLE_RADIUS)
 #define Z_MIN_POS 0
-#define X_MAX_POS X_BED_SIZE
-#define Y_MAX_POS Y_BED_SIZE
-#define Z_MAX_POS 200
+#define X_MAX_POS DELTA_PRINTABLE_RADIUS
+#define Y_MAX_POS DELTA_PRINTABLE_RADIUS
+#define Z_MAX_POS MANUAL_Z_HOME_POS
 
 /**
  * Software Endstops
@@ -1456,7 +1458,7 @@
  * Normally G28 leaves leveling disabled on completion. Enable
  * this option to have G28 restore the prior leveling state.
  */
-//#define RESTORE_LEVELING_AFTER_G28
+#define RESTORE_LEVELING_AFTER_G28  //for UBL
 
 /**
  * Enable detailed logging of G28, G29, M48, etc.
@@ -1585,13 +1587,13 @@
 // @section homing
 
 // The center of the bed is at (X=0, Y=0)
-//#define BED_CENTER_AT_0_0
+#define BED_CENTER_AT_0_0
 
 // Manually set the home position. Leave these undefined for automatic settings.
 // For DELTA this is the top-center of the Cartesian print volume.
 //#define MANUAL_X_HOME_POS 0
 //#define MANUAL_Y_HOME_POS 0
-//#define MANUAL_Z_HOME_POS 0
+#define MANUAL_Z_HOME_POS DELTA_HEIGHT // Distance between the nozzle to printbed after homing
 
 // Use "Z Safe Homing" to avoid homing with a Z probe outside the bed area.
 //
@@ -1692,7 +1694,7 @@
 #define EEPROM_CHITCHAT       // Give feedback on EEPROM commands. Disable to save PROGMEM.
 #define EEPROM_BOOT_SILENT    // Keep M503 quiet and only give errors during first load
 #if ENABLED(EEPROM_SETTINGS)
-  //#define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
+  #define EEPROM_AUTO_INIT  // Init EEPROM automatically on any errors.
 #endif
 
 //
@@ -1749,7 +1751,7 @@
  *    P1  Raise the nozzle always to Z-park height.
  *    P2  Raise the nozzle by Z-park amount, limited to Z_MAX_POS.
  */
-//#define NOZZLE_PARK_FEATURE
+#define NOZZLE_PARK_FEATURE
 
 #if ENABLED(NOZZLE_PARK_FEATURE)
   // Specify a park position as { X, Y, Z_raise }
@@ -1936,7 +1938,7 @@
  *
  * :['JAPANESE', 'WESTERN', 'CYRILLIC']
  */
-#define DISPLAY_CHARSET_HD44780 JAPANESE
+#define DISPLAY_CHARSET_HD44780 WERTERN
 
 /**
  * Info Screen Style (0:Classic, 1:Průša)
@@ -2577,12 +2579,6 @@
   //#define XPT2046_Y_CALIBRATION -8981
   //#define XPT2046_X_OFFSET        -43
   //#define XPT2046_Y_OFFSET        257
-
-  // Define in pins QQS-Pro (M995)
-  //#define XPT2046_X_CALIBRATION 12218
-  //#define XPT2046_Y_CALIBRATION -8814
-  //#define XPT2046_X_OFFSET        -34
-  //#define XPT2046_Y_OFFSET        256
 
   #endif
 
